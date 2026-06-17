@@ -13,8 +13,7 @@ export function createApp(service = new BankingService()) {
   app.get('/api-docs.json', (_req, res) => res.json(swaggerSpec));
 
   // Swagger UI qui pointe sur notre spec
-  app.use('/swagger-ui', swaggerUi.serve);
-  app.get('/swagger-ui', swaggerUi.setup(swaggerSpec));
+  app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   // Routes principales
   app.use('/comptes', createBankingRouter(service));
