@@ -5,6 +5,11 @@
 import express from 'express';
 import { BankingService } from './bankingService.js';
 import { createBankingRouter } from './bankingRouter.js';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger.js';
+
+// Après app.use(express.json()) :
+app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export function createApp(service = new BankingService()) {
   const app = express();
