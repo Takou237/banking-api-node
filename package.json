@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
