@@ -9,8 +9,12 @@ export function createApp(service = new BankingService()) {
 
   app.use(express.json());
 
-  // Swagger UI
-  app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  // Expose le spec JSON
+  app.get('/api-docs.json', (_req, res) => res.json(swaggerSpec));
+
+  // Swagger UI qui pointe sur notre spec
+  app.use('/swagger-ui', swaggerUi.serve);
+  app.get('/swagger-ui', swaggerUi.setup(swaggerSpec));
 
   // Routes principales
   app.use('/comptes', createBankingRouter(service));
@@ -18,7 +22,7 @@ export function createApp(service = new BankingService()) {
   // Route de santé
   app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
-  // Gestion des erreurs non catchées
+  // Gestion des erreurs
   app.use((err, _req, res, _next) => {
     console.error(err);
     res.status(500).json({ erreur: 'Erreur interne du serveur' });
