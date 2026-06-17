@@ -1,20 +1,16 @@
-// ─── app.js ───────────────────────────────────────────────────────────────────
-// Crée et configure l'application Express.
-// Séparé de index.js pour pouvoir être importé dans les tests sans démarrer le serveur.
-
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 import { BankingService } from './bankingService.js';
 import { createBankingRouter } from './bankingRouter.js';
-import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.js';
-
-// Après app.use(express.json()) :
-app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export function createApp(service = new BankingService()) {
   const app = express();
 
   app.use(express.json());
+
+  // Swagger UI
+  app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   // Routes principales
   app.use('/comptes', createBankingRouter(service));
